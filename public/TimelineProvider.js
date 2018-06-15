@@ -27,9 +27,7 @@ function TimelineProvider(Private) {
         startAction: 'appstart',
         timeField: 'timestamp',
         maxSessionCount: 100,
-        maxSessionLength: 5,
-        width: 1500,
-        height: 800
+        maxSessionLength: 5
       },
     },
     editorConfig: {
