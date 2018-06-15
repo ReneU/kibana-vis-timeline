@@ -1,0 +1,25 @@
+<div class="form-group">
+  <label>Session Field</label>
+  <input type="text" ng-model="vis.params.sessionField" class="form-control" /></br>
+
+  <label>Action Field</label>
+  <input type="text" ng-model="vis.params.actionField" class="form-control" /></br>
+
+  <label>Start Action</label>
+  <input type='text' ng-model='vis.params.startAction' class='form-control' /></br>
+
+  <label>Time Field</label>
+  <input type="text" ng-model="vis.params.timeField" class="form-control" /></br>
+
+  <label>Max Session Count - {{ vis.params.maxSessionCount }}</label>
+  <input type="range" ng-model="vis.params.maxSessionCount" class="form-control" min="2" max="100" /></br>
+
+  <label>Max Session Length - {{ vis.params.maxSessionLength }}</label>
+  <input type="range" ng-model="vis.params.maxSessionLength" class="form-control" min="2" max="10" /></br>
+
+  <label>Chart Width - {{ vis.params.width }}</label>
+  <input type="range" ng-model="vis.params.width" class="form-control" min="300" max="1800" step="10"/></br>
+
+  <label>Chart Height - {{ vis.params.height }}</label>
+  <input type="range" ng-model="vis.params.height" class="form-control" min="200" max="800" step="10"/></br>
+</div>

@@ -1,0 +1,54 @@
+.vis-item {
+  font-size: xx-small;
+}
+.vis-item {
+  font-size: xx-small;
+}
+
+.vis-item.lightblue {
+  color: white;
+  background-color: #12a5f4;
+  border-color: #0985c8;
+}
+
+.vis-item.red {
+  color: white;
+  background-color: #e74c3c;
+  border-color: #cf2a19;
+}
+
+.vis-item.yellow {
+  color: white;
+  background-color: #f1c40f;
+  border-color: #c19d0b;
+}
+
+.vis-item.purple {
+  color: white;
+  background-color: #9b59b6;
+  border-color: #7e4296;
+}
+
+.vis-item.green {
+  color: white;
+  background-color: #1abc9c;
+  border-color: #14967c;
+}
+
+.vis-item.orange {
+  color: white;
+  background-color: #e67e22;
+  border-color: #bd6415;
+}
+
+.vis-item.brown {
+  color: white;
+  background-color: #a65628;
+  border-color: #732300;
+}
+
+.vis-item.gray {
+  color: white;
+  background-color: #999999;
+  border-color: #666666;
+}
