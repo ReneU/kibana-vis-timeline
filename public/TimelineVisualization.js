@@ -17,12 +17,20 @@ export default class TimelineVisualization {
   }
 
   destroy() {
-    this.el.innerHTML = '';
+    this.container && this.el.removeChild(this.container);
+    this.el.innerHTML = `
+      <div class='table-vis-error'>
+        <h2 aria-hidden='true'>
+          <i aria-hidden='true' class='fa fa-meh-o'></i>
+        </h2>
+        <h4>No results found</h4>
+      </div>`;
   }
 
   render({ items, groups }) {
     this.destroy();
     if (!items) return;
+    this.el.innerHTML = '';
     this.container = document.createElement('div');
     this.container.style.height = '100%';
     this.container.style.width = '100%';
