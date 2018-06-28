@@ -25,7 +25,7 @@ function TimelineProvider(Private) {
         sessionField: 'session_id.keyword',
         actionField: 'topic',
         startAction: 'appstart',
-        timeField: 'timestamp',
+        timeField: 'session_time',
         maxSessionCount: 100,
         maxSessionLength: 5
       },

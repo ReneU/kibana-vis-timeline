@@ -53,26 +53,18 @@ const getRequestBody = (params, queryFilter, timeFilter) => {
           [meta.key]: meta.value
         }
       };
-      addMatchQuery(requestBody, matchQuery, meta, params);
+      addMatchQuery(requestBody, matchQuery, meta);
     });
   }
   return requestBody;
 };
 
-function addMatchQuery(request, query, { negate, key }, { actionField, startAction }) {
+function addMatchQuery(request, query, { negate }) {
   let matcher;
   if (negate) {
     matcher = request.query.bool.must_not ? request.query.bool.must_not : (request.query.bool.must_not = []);
   } else{
-    // is key field the same as used for retrieving start event?
-    // if yes, it's not a must but a should because we still need start event for retrieving start time
-    if (key === actionField || key === actionField + '.keyword') {
-      const bool = request.query.bool.must[1].bool;
-      !bool.should && (bool.should = [{ 'match': { [actionField]: startAction } }]);
-      matcher = bool.should;
-    } else {
-      matcher = request.query.bool.must;
-    }
+    matcher = request.query.bool.must;
   }
   matcher.push(query);
 }

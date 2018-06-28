@@ -8,8 +8,8 @@ export function handleResponse(kibana, response) {
       sessionKey: session.key,
       events: events.map(event => {
         return {
-          name: event._source.topic,
-          timestamp: event._source.timestamp
+          name: event._source[kibana.params.actionField],
+          time: event._source[kibana.params.timeField]
         };
       })
     };
@@ -20,18 +20,15 @@ export function handleResponse(kibana, response) {
   let lastDate = new Date(60000);
   const groups = [];
   const items = new vis.DataSet(sessions.reduce((data, { events, sessionKey }) => {
-    let firstEvtDate;
+    let firstEvtTime;
     let atLeastOneEvent = false;
-    events.forEach(({ timestamp, name }, idx) => {
-      if ((!firstEvtDate && name !== 'appstart') || (idx && name === events[idx - 1].name)) {
-        return;
-      } else if (name === 'appstart') {
-        firstEvtDate = new Date(timestamp);
-        return;
+    events.forEach(({ time, name }, idx) => {
+      if (!firstEvtTime) {
+        firstEvtTime = new Date(time);
       }
       atLeastOneEvent = true;
-      const timeSinceSessionStart = new Date(new Date(timestamp) - firstEvtDate);
-      if (timeSinceSessionStart > lastDate) lastDate = timeSinceSessionStart;
+      const timeSinceFirstEvt = new Date(new Date(time) - firstEvtTime);
+      if (timeSinceFirstEvt > lastDate) lastDate = timeSinceFirstEvt;
       let className = colorLookup[name];
       if (!className) {
         className = colors.shift();
@@ -40,7 +37,7 @@ export function handleResponse(kibana, response) {
       data.push({
         id: `${sessionKey}-${idx}`,
         content: name,
-        start: timeSinceSessionStart,
+        start: timeSinceFirstEvt,
         group: sessionKey,
         className
       });
