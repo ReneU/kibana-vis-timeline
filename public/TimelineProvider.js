@@ -27,7 +27,7 @@ function TimelineProvider(Private) {
         startAction: 'appstart',
         timeField: 'session_time',
         maxSessionCount: 100,
-        maxSessionLength: 5
+        maxSessionLength: 30
       },
     },
     editorConfig: {
