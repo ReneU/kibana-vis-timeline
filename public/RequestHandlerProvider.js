@@ -48,22 +48,33 @@ const getRequestBody = (params, queryFilter, timeFilter) => {
   if (queries && queries.length) {
     queries.forEach(({ meta }) => {
       if (meta.disabled) return;
+      let query;
       switch (meta.type) {
         case 'phrase':
-          const phraseQuery = {
+          query = {
             match: {
               [meta.key]: meta.value
             }
           };
-          addMustQuery(requestBody, phraseQuery, meta);
+          addMustQuery(requestBody, query, meta);
+          break;
+        case 'phrases':
+          meta.params.forEach(param => {
+            query = {
+              match: {
+                [meta.key]: param
+              }
+            };
+            addShouldQuery(requestBody, query, meta);
+          });
           break;
         case 'exists':
-          const existsQuery = {
+          query = {
             exists: {
               field: meta.key
             }
           };
-          addMustQuery(requestBody, existsQuery, meta);
+          addMustQuery(requestBody, query, meta);
       }
     });
   }
@@ -76,6 +87,17 @@ function addMustQuery(request, query, { negate }) {
     matcher = request.query.bool.must_not ? request.query.bool.must_not : (request.query.bool.must_not = []);
   } else {
     matcher = request.query.bool.must;
+  }
+  matcher.push(query);
+}
+
+function addShouldQuery(request, query, { negate }) {
+  let matcher;
+  if (negate) {
+    matcher = request.query.bool.must_not ? request.query.bool.must_not : (request.query.bool.must_not = []);
+  } else {
+    matcher = request.query.bool.should ? request.query.bool.should : (request.query.bool.should = []);
+    request.query.bool.minimum_should_match = 1;
   }
   matcher.push(query);
 }
