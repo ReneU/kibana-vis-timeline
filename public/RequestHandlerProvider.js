@@ -68,6 +68,14 @@ const getRequestBody = (params, queryFilter, timeFilter) => {
             addShouldQuery(requestBody, query, meta);
           });
           break;
+        case 'range':
+          query = {
+            range: {
+              [meta.key]: meta.params
+            }
+          };
+          addRangeQuery(requestBody, query, meta);
+          break;
         case 'exists':
           query = {
             exists: {
@@ -98,6 +106,16 @@ function addShouldQuery(request, query, { negate }) {
   } else {
     matcher = request.query.bool.should ? request.query.bool.should : (request.query.bool.should = []);
     request.query.bool.minimum_should_match = 1;
+  }
+  matcher.push(query);
+}
+
+function addRangeQuery(request, query, { negate }) {
+  let matcher;
+  if (negate) {
+    matcher = request.query.bool.must_not ? request.query.bool.must_not : (request.query.bool.must_not = []);
+  } else {
+    matcher = request.query.bool.must;
   }
   matcher.push(query);
 }
