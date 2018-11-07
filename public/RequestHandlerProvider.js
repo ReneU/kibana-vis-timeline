@@ -6,7 +6,7 @@ const getRequestBody = (params, queryFilter, timeFilter) => {
         'must': [
           {
             'range': {
-              'timestamp': {
+              '@timestamp': {
                 'gte': timeFilter.from,
                 'lte': timeFilter.to
               }
@@ -126,9 +126,9 @@ export function RequestHandlerProvider(Private, es) {
       const { timeFilter, queryFilter } = vis.API;
       return new Promise(resolve => {
         const params = vis.params;
-        const requestBody = getRequestBody(params, queryFilter, timeFilter.time);
+        const requestBody = getRequestBody(params, queryFilter, timeFilter.getTime());
         es.search({
-          index: 'analytics',
+          index: params.index,
           body: requestBody
         }).then(result => resolve(result));
       });
